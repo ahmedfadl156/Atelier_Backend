@@ -1,11 +1,11 @@
 import mongoose from "mongoose"
-import AppError from "../utils/AppError.js"
+import AppError from "../utils/appError.js"
 import Cart from "../models/cart.model.js"
 import Order from "../models/orders.model.js";
 import Product from "../models/product.model.js"
 import dotenv from "dotenv"
 import crypto from "crypto"
-dotenv.config({path:"/config/.env"})
+dotenv.config({ path: "config/.env" })
 
 // ===============USER ROUTES=============
 export const getLoggedUserOrders = async (req , res , next) => {
