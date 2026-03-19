@@ -17,6 +17,7 @@ export const createSendToken = async (user , statusCode , res) => {
 
     if(process.env.NODE_ENV === "production"){
         cookieOptions.secure = true;
+        cookieOptions.sameSite = 'none';
     }
 
     res.cookie('Atielie_JWT' , token , cookieOptions);
