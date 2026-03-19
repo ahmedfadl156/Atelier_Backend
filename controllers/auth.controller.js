@@ -1,5 +1,5 @@
 import User from "../models/users.model.js";
-import { createSendToken } from "../utils/signToken.js";
+import { clearAuthCookie, createSendToken } from "../utils/signToken.js";
 import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "../utils/email.js";
 import Cart from "../models/cart.model.js";
 import crypto from "node:crypto"
@@ -114,7 +114,7 @@ export const verifyEmail = async (req , res , next) => {
 
 export const signOut = async (req , res , next) => {
     try {
-        await res.clearCookie("Atielie_JWT")
+        clearAuthCookie(res);
         res.status(200).json({
             status: "success",
             message: "User Signed Out Successfully!"

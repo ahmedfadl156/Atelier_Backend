@@ -32,6 +32,7 @@ dotenv.config({ path: path.join(__dirname, 'config', '.env') });
 const app = express();
 
 dns.setServers(['1.1.1.1', '8.8.8.8']);
+app.set('trust proxy', 1);
 
 app.use(cors({
   origin: ["https://atelier-fashion-e-commerce.vercel.app" , "http://localhost:3000"],
