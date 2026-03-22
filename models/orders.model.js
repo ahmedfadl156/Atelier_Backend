@@ -67,6 +67,8 @@ const orderSchema = new mongoose.Schema({
     pointsEarned: {type: Number, default: 0}, 
 }, { timestamps: true });
 
+orderSchema.index({ status: 1, isPaid: 1, user: 1 });
+
 // قبل الحفظ عايزين نعمل ال orderId
 orderSchema.pre('save' , function(){
     if(this.isNew){

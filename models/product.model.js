@@ -89,6 +89,8 @@ const productSchema = new mongoose.Schema({
     toObject: { virtuals: true },
 });
 
+productSchema.index({ soldCount: -1 });
+
 // هنا هنعمل ال slug قبل ما نحفظ المنتج في الداتا بيز
 productSchema.pre('save' , function() {
     if(this.isModified('title') || this.isNew){

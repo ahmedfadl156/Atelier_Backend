@@ -2,7 +2,6 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import dns from 'dns';
 import { fileURLToPath } from 'url';
@@ -23,6 +22,8 @@ import { globalErrorHandler } from './controllers/error.controller.js';
 import AppError from './utils/appError.js';
 import wishlistRouter from './routes/wishlist.routes.js';
 import orderRouter from './routes/order.routes.js';
+import analtyticsRouter from './routes/analytics.routes.js';
+import dotenv from 'dotenv';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -80,6 +81,7 @@ app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/wishlist", wishlistRouter);
 app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/analytics", analtyticsRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

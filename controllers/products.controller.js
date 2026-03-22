@@ -5,6 +5,7 @@ import APIFeatures from "../utils/apiFeatures.js";
 import AppError from "../utils/appError.js";
 import { calculateTrendingProducts } from "../utils/cronJobs.js";
 import Category from "../models/category.model.js";
+import { deleteFromCloudinary } from "../utils/uploadToCloudinary.js";
 
 export const aliasFeaturedProducts = (req , res , next) => {
     req.query.isFeatured = true;
@@ -161,6 +162,37 @@ export const deleteProduct = async (req , res , next) => {
         if(!product){
             next(new AppError("There is no product found with this ID" , 404))
         }
+
+        res.status(200).json({
+            status: "success",
+            message: "The Product Deleted Successfully",
+            data: null
+        })
+    } catch (error) {
+        next(new AppError("Error while deleting the product" , 400))
+    }
+}
+// هنا حذف المنتج تماما
+export const deleteProductPermenant = async (req , res , next) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findById(id);
+        
+        if(!product){
+            next(new AppError("There is no product found with this ID" , 404))
+        }
+
+        if(product.coverImage){
+            await deleteFromCloudinary(product.coverImage);
+        }
+
+        if(product.images && product.images.length > 0){
+            const deltePromises = product.images.map(imgUrl => deleteFromCloudinary(imgUrl))
+
+            await Promise.all(deltePromises);
+        }
+
+        await product.deleteOne();
 
         res.status(200).json({
             status: "success",
